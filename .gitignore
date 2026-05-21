@@ -7,3 +7,6 @@ venv/
 .venv/
 *.egg-info/
 .pytest_cache/
+*.db
+*.sqlite
+*.sqlite3
