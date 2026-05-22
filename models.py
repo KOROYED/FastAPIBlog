@@ -20,7 +20,10 @@ class User(Base):
         default=None,
     )
 
-    posts: Mapped[list[Post]] = relationship(back_populates="author")                       # one to many relationship. enables user.posts   Forward reference
+    posts: Mapped[list[Post]] = relationship(
+        back_populates="author", 
+        cascade="all, delete-orphan",                                                       # if user is deleted, delete all of their posts too
+    )                                                                                       # one to many relationship. enables user.posts   Forward reference
 
     @property                                                                               # allows to get path in schemas.py (UserResponse) automatically (from_attributes = True)
     def image_path(self) -> str:
