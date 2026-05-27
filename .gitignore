@@ -10,3 +10,5 @@ venv/
 *.db
 *.sqlite
 *.sqlite3
+populate_db.py
+populate_images/

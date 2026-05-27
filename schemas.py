@@ -57,3 +57,10 @@ class PostResponse(PostBase):
     date_posted: datetime                                                               # includes auto serializtion
     author: UserPublic                                                                  # enables nested JSON with user info on post request automatically
     
+
+class PaginatedPostsResponse(BaseModel):
+    posts: list[PostResponse]
+    total: int
+    skip: int
+    limit: int
+    has_more: bool
