@@ -5,16 +5,25 @@
 # All 3 parts are base64 encoded and separated by dots. Signature is created using our secret key so only our server can create valid tokens
 
 from datetime import UTC, datetime, timedelta
+from typing import Annotated
 
 import jwt
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from config import settings
+
+import models
+from database import get_db
+
 
 password_hash = PasswordHash.recommended()                                                      # creates pass hasher with argon2 with recommended default settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/users/token")                                # extracts token from authorization header, also enables authorize button in docs
+
 
 def hash_password(password: str) -> str:
     return password_hash.hash(password)
@@ -54,4 +63,45 @@ def verify_access_token(token: str) -> str | None:
     except jwt.InvalidTokenError:
         return None
     else:
-        return payload.get("sub")                      
+        return payload.get("sub")
+    
+
+async def get_current_user(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> models.User:
+    # Extract the token and verify it
+    user_id = verify_access_token(token)
+    if user_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Validate user_id is a valid integer (defense against malformed JWT)
+    try:
+        user_id_int = int(user_id)
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # query db and the current user
+    result = await db.execute(
+        select(models.User).where(models.User.id == user_id_int),
+    )
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return user
+
+
+#alias
+CurrentUser = Annotated[models.User, Depends(get_current_user)]       # Annotated(is a type kinda hint) here its saying that current user is a User object and it depends on get_current_user
