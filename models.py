@@ -53,6 +53,7 @@ class Post(Base):
         DateTime(timezone=True),                                                            # makes sure that timezone aware storage works (for Postgress later, sqlite uses text for time)
         default=lambda: datetime.now(UTC),
     )
+    likes: Mapped[int] = mapped_column(Integer, default=0, server_default="0")              # first default is python sqlalchemy side, and second is database side. this important to not set Null
 
     author: Mapped[User] = relationship(back_populates="posts")                             # many to one. allows post.author to get user. with this sqlalchemy auto handles joins
 
