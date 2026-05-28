@@ -16,5 +16,16 @@ class Settings(BaseSettings):
 
     posts_per_page: int = 10
 
+    reset_token_expire_minutes: int = 60
 
-settings = Settings()                                                           # Loaded from .env file
+    mail_server: str = "localhost"
+    mail_port: int = 587                                                        # standart for smtp
+    mail_username: str = ""
+    mail_password: SecretStr = SecretStr("")
+    mail_from: str = "noreply@example.com"
+    mail_use_tls: bool = False                                                   # tells smtp to use encryption
+
+    frontend_url: str = "http://localhost:8000"
+
+
+settings = Settings()                                                           # Loaded from .env file. type: ignore[call-arg]
