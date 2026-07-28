@@ -7,7 +7,7 @@ A blogging platform built with FastAPI, combining a server-rendered frontend (Ji
 - **User accounts** — registration, login, and profile pages with profile picture uploads
 - **JWT authentication** — access tokens via `OAuth2PasswordBearer`, passwords hashed with Argon2 (`pwdlib`)
 - **Password reset flow** — single-use, hashed, time-limited reset tokens sent via email
-- **Posts** — create, view, and browse posts with pagination and author info eager-loaded for performance
+- **Posts** — create, view, and browse posts with pagination and author info
 - **Per-user post pages** — view all posts by a specific user
 - **Dual response modes** — HTML pages for the browser (Jinja2 templates) and JSON responses for `/api/*` routes, including consistent error handling for both
 - **Database migrations** — schema changes managed with Alembic
