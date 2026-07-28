@@ -15,6 +15,7 @@ A blogging platform built with FastAPI, combining a server-rendered frontend (Ji
 - **Tests** — automated test suite included
 - **Deployment** - deployed as a containerized service on Google Cloud Run, 
 database hosted on Neon (serverless Postgres)
+
 ## Tech Stack
  
 - **Framework:** FastAPI
@@ -23,3 +24,7 @@ database hosted on Neon (serverless Postgres)
 - **Templating:** Jinja2
 - **Email:** SMTP-based email sending for password resets
 - **Config:** `pydantic-settings`, loaded from `.env`
+
+## Link
+
+https://fastapi-service-396129845196.europe-west3.run.app
