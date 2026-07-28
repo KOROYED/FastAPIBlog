@@ -1,6 +1,13 @@
 # FastAPIBlog
  
 A blogging platform built with FastAPI, combining a server-rendered frontend (Jinja2) with a JSON API, backed by async SQLAlchemy and JWT authentication.
+
+## Screenshots
+
+<img width="1907" height="960" alt="image" src="https://github.com/user-attachments/assets/6d82aa58-6093-4f99-b7f8-3039545ed2c9" />
+<img width="1893" height="962" alt="image" src="https://github.com/user-attachments/assets/f8f6dc6b-4882-449d-b27c-3f7d93582de1" />
+
+
  
 ## Features
  
